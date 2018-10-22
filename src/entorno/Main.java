@@ -37,10 +37,11 @@ public class Main {
 			String option=reader.next();
 			if (option.toLowerCase()!= "y") {
 				isAlive=true;
-				System.out.println("Termino");
+				System.out.println("Continuar");
 			}else {
 				isAlive=false;
-			System.out.println("Continuar");
+			System.out.println("Termino");
+			
 			}
 		}while (isAlive);		
 		

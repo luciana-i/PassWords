@@ -89,10 +89,7 @@ public class Menu {
 				System.out.println("La contraseña es: " +item.getPassword());
 				return item.getPassword();
 			}
-		}
-		for(Aplicaciones item : usr.getListaAplicaciones()) {
-				System.out.println("La contraseña es: " +item.getPassword()+ "usuario es: " + item.getNombreApplicacion() + "usuario es: " + item.getNombreUsuario());
-			}///no agarra el get NombreAplicacion La contraseña es: 123usuario es: Lusuario es: Lu
+		}		
 		System.out.println("no hay app con ese nombre");
 		return "Error";
 		}
