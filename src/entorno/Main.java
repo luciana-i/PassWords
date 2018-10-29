@@ -1,4 +1,5 @@
 package entorno;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -7,44 +8,55 @@ import dominio.*;
 
 public class Main {
 
+	
+	public void manejoPrograma(boolean isAlive, Menu menu, Integer opcion, Usuario usr, List<Aplicaciones> lista, Reader reader){
+		
+		
+	}
 	public static void main(String[] args) {
 	//	List<Usuario> listaUsuarios = new ArrayList<Usuario>();
 		List<Aplicaciones> listaAplicaciones = new ArrayList <Aplicaciones> ();
 		Menu menu = new Menu();
 		Usuario usr = new Usuario();
-		int opcion;
+		Integer opcion;
 		boolean isAlive= true;
 		Scanner reader = new Scanner(System.in);
 		
-		//despues se hara una lista de esto
-		/*			
-		Usuario usr = new Usuario();
-			
-		usr.listaAplicaciones = new ArrayList <Aplicaciones>();
-		usr.setDni(33333);
-		usr.setNombre("Admin");
+		/// HARCODEADO
+		Aplicaciones app = new Aplicaciones("spotify", "Lu", "123");
+		listaAplicaciones.add(app);
+		Usuario usr2 = new Usuario("Luciana", 123, listaAplicaciones);
+		// HARCODEADO
 		
-		menu.AgregarApp("spotify", "luciana", "333", usr.listaAplicaciones);
-		
-		for(Aplicaciones item : usr.listaAplicaciones) {
-			System.out.println("El nombre de la app es: "+ item.getNombreApplicacion()+"\nEl nombre del usuario es: " + item.getNombreUsuario() + "\nLa pass es: " +item.getPassword());
-		}
-		*/
 		do {
-			opcion = menu.menuOpciones();	
-			menu.mapeoOpciones(opcion, usr, listaAplicaciones);
-			System.out.println("¿Desea continuar? Y/N");
-			String option=reader.next();
-			if (option.toLowerCase()!= "y") {
-				isAlive=true;
-				System.out.println("Continuar");
-			}else {
-				isAlive=false;
-			System.out.println("Termino");
 			
+			try{
+				opcion = menu.menuOpciones();
+				menu.mapeoOpciones(opcion, usr2, listaAplicaciones);
+				if (opcion == 5){
+					System.exit(0);
+					reader.close();
+				}
+				System.out.println("¿Desea continuar? Y/N");
+				String option=reader.next();
+				if (option.toLowerCase()== "y") {
+					isAlive=true;
+					System.out.println("Continuar");
+				}else {
+					isAlive=false;
+				System.out.println("Adios");
+				reader.close();
+				}
+				
+			}catch (TeclaNoEsperadaExcepcion e){
+				System.out.println(e.mensajeInt);
+				reader.reset();
 			}
+			
+			
 		}while (isAlive);		
 		
 	}
+	
 	
 }

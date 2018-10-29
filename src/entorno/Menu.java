@@ -1,4 +1,5 @@
 package entorno;
+import Funcionalidades.*;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,14 +12,20 @@ public class Menu {
 	}
 	Scanner reader = new Scanner(System.in);
 	
-	public int menuOpciones () {
+	public Integer menuOpciones () throws TeclaNoEsperadaExcepcion {
 		boolean bandera = true;
 		while (bandera) {
 			this.vistaMenu();
-			int opcion=reader.nextInt();
-			if (opcion <5 && opcion >0) {
-				bandera=false;
-				return opcion;
+			try{
+				Integer opcion=reader.nextInt();
+				this.vistaMenu();
+				if (opcion <6 && opcion >0) {
+					bandera=false;
+					return opcion;
+					}
+				}catch (Exception e){
+					reader.reset();
+					throw new TeclaNoEsperadaExcepcion();
 			}
 		}
 		return -1;
@@ -40,7 +47,7 @@ public class Menu {
 				String nombre =reader.next();
 				System.out.println("Ingrese dni");
 				int dni= reader.nextInt();
-				this.nuevoUsuario(dni, nombre, usr, lista);	
+				FuncionesMenu.getFuncmenu().nuevoUsuario(dni, nombre, usr, lista);	
 				break;
 			case 2:
 				System.out.println("Ingrese nombre nueva aplicacion");
@@ -49,63 +56,24 @@ public class Menu {
 				String usrApp= reader.next();
 				System.out.println("Ingrese password app");
 				String passApp= reader.next();
-				this.AgregarApp(app, usrApp, passApp, usr);
+				FuncionesMenu.getFuncmenu().AgregarApp(app, usrApp, passApp, usr);
 				break;
 			case 3:
 				System.out.println("Ingrese nombre aplicacion");
 				String applicacion= reader.next();
-				String pass;
-				pass = this.buscarPassword(applicacion, usr);
+				System.out.println("Su password es: "+ FuncionesMenu.getFuncmenu().buscarPassword(applicacion, usr));
 				break;
 			case 4:
 				System.out.println("Ingrese nombre aplicacion");
 				String aplicacion= reader.next();
-				this.buscarDatosApp(aplicacion,usr);
+				FuncionesMenu.getFuncmenu().buscarDatosApp(aplicacion,usr);
 				break;
 			case 5:
+				System.out.println("Adios");
 				break;
 			default:
 				System.out.println("Datos ingresados incorrectos");
 				break;
 		}
 	}
-	
-	public void nuevoUsuario(int dni, String nombre,Usuario usr, List <Aplicaciones> lista) {
-		usr.setDni(dni);
-		usr.setNombre(nombre);
-		usr.setListaAplicaciones(lista);
-		System.out.println("Se agrego el usuario nuevo");
-	}
-	
-	public void AgregarApp(String nombreApp, String nombreUsr, String pass, Usuario usr) {
-		Aplicaciones app = new Aplicaciones (nombreApp, nombreUsr, pass);
-		System.out.println("Se agrego la nueva aplicacion");
-		usr.getListaAplicaciones().add(app);
-	}
-	
-	public String buscarPassword (String nombreApp, Usuario usr) {
-		for(Aplicaciones item : usr.getListaAplicaciones()) {
-			if (item.getNombreApplicacion().toLowerCase()== nombreApp.toLowerCase()) {
-				System.out.println("La contraseña es: " +item.getPassword());
-				return item.getPassword();
-			}
-		}		
-		System.out.println("no hay app con ese nombre");
-		return "Error";
-		}
-		
-	
-	public void buscarDatosApp (String nombreApp,Usuario usr) {
-		for (Aplicaciones item : usr.getListaAplicaciones()){
-			if (item.getNombreApplicacion().toLowerCase()== nombreApp.toLowerCase()) {
-				System.out.println("El nombre de la aplicacion es: " + item.getNombreApplicacion());
-				System.out.println("El nombre del usuario de la aplicacion es: " + item.getNombreUsuario());
-				System.out.println("La contraseña es: " + item.getPassword());
-			}
-		}
-	}
-	
-	
-	
-
 }
